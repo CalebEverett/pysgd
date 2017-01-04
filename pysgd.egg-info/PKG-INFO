@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: pysgd
-Version: 0.0.1a1
+Version: 0.0.1a2
 Summary: Stochastic gradient descent algorithms
 Home-page: https://github.com/CalebEverett/pysgd
 Author: Caleb Everett
