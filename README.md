@@ -25,7 +25,7 @@ The package is structured to make it easy to add additional objective functions 
 
 ### Gradient Descent
 
-Gradient descent is a method for minimizing an objective function. In machine learning applications the objective function to be minimized is the error, $J$, (or cost) of a predictive model. A predictive model consists of a parameters, $\theta$, that are applied to inputs, $X$, (also called training samples, features, observations or independent variables) in order to estimate an output, $\hat{y}$ (also called a label or dependent variable). Gradient descent attempts to determine the parameters that when applied to a set of inputs result in the lowest total error (the difference between the actual outcome and the one predicted by the model). Below is the basic predictive formula.
+Gradient descent is a method for minimizing an objective function. In machine learning applications the objective function to be minimized is the error, `J`, (or cost) of a predictive model. A predictive model consists of a parameters, $\theta$, that are applied to inputs, $X$, (also called training samples, features, observations or independent variables) in order to estimate an output, $\hat{y}$ (also called a label or dependent variable). Gradient descent attempts to determine the parameters that when applied to a set of inputs result in the lowest total error (the difference between the actual outcome and the one predicted by the model). Below is the basic predictive formula.
 
 $$H(X,\theta)=\hat{y}$$
 
