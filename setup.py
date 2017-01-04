@@ -13,6 +13,7 @@ setup(
     description='Stochastic gradient descent algorithms',
     long_description=long_description,
     url='https://github.com/CalebEverett/pysgd',
+    download_url='https://github.com/CalebEverett/pysgd/archive/0.0.1a1.tar.gz',
     author='Caleb Everett',
     author_email='mail@calebeverett.io',
     license='MIT',
