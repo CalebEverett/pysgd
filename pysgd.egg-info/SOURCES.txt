@@ -1,4 +1,3 @@
-setup.cfg
 setup.py
 pysgd/__init__.py
 pysgd.egg-info/PKG-INFO

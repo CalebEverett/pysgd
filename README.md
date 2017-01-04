@@ -1,9 +1,10 @@
+
 # pysgd
 
-This package is structured as a general gradient descent algorithm that accepts data, an objective function, a gradient descent adaptation and hyperparameters as its arguments. Below is the file structure of the package:
+The `pysgd` package is structured as a general gradient descent algorithm that accepts data, an objective function, a gradient descent adaptation and hyperparameters as its arguments. Below is the file structure of the package:
 
 ```
-sgd/
+pysgd/
 |--__init__.py
 |--adaptations/
 |  |--__init__.py
@@ -18,7 +19,7 @@ sgd/
 |--tests/
 
 ```
-There are a good number of other, fully developed, very robust machine learning libraries out there and this package is not intended as replacement. The intention of this package is to present reasonbly efficient, working algorithms that are easy to understand.
+The intention of this package is to present reasonbly efficient, working algorithms that are easy to understand.
 
 The package is structured to make it easy to add additional objective functions and gradient descent adaptations, by following the basic form of the existing ones and adding them into their respective folders.
 
@@ -81,5 +82,4 @@ The Styblinski–Tang gradient function is:
 
 $$\frac\partial{\partial\theta_n}J(\theta) = 2\theta_n^3-16\theta_n+2.5$$
 
-The color scale of the surface plots in the included notebook corresponds to the z-axis value, which represents cost $J$ for all values of $\theta$ in the displayed range. The color scale of the points on the surface, which represent the cost $J_{\theta_j}$ as a function of $\theta_j$ at each iteration of the model, corresponds to the iteration.
-
+The color scale of the surface plots corresponds to the z-axis value, which represents cost $J$ for all values of $\theta$ in the displayed range. The color scale of the points on the surface, which represent the cost $J_{\theta_j}$ as a function of $\theta_j$ at each iteration of the model, corresponds to the iteration.
