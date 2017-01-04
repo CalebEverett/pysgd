@@ -1,14 +1,10 @@
 import pytest
 import numpy as np
 from pysgd import sgd
-from pysgd.objectives.logistic import sigmoid
 
 def gen_data():
-    data = np.ones((100,3))
-    obj_theta = np.array([100, 10])
-    np.random.seed(4)
-    data[:,1:-1] = np.random.randint(101, size=(100,1))
-    data[:,-1] = data[:,:-1].dot(obj_theta) * np.random.uniform(0.85, 1.15, 100)
+    data = np.ones((100,4))
+    data[:,1:] = np.loadtxt(open('tests/logistic.txt', 'rb'), delimiter=',')
     mu = np.mean(data[:,1:-1], axis=0)
     sigma = np.std(data[:,1:-1], axis=0)
     data[:,1:-1] = (data[:,1:-1] - mu) / sigma
@@ -20,11 +16,10 @@ def test_theta(obj, adapt):
     theta0 = dict(
         stab_tang=np.array([-0.2, -4.4]),
         linear=np.zeros(2),
-        logistic=np.zeros(2)
+        logistic=np.zeros(3)
     )
 
     test_data = next(gen_data())
-    test_data[:,-1] = np.round(sigmoid((test_data[:,-1] - np.mean(test_data[:,-1])) / np.std(test_data[:,-1])), 0)
 
     data = dict(
         stab_tang=np.array([]),
@@ -55,6 +50,6 @@ def test_theta(obj, adapt):
     result = dict(
         stab_tang = np.array([-2.9,  -2.9]),
         linear = np.array([616.22926755,  265.339612734]),
-        logistic = np.array([-0.42916511,  5.79726286])
+        logistic = np.array([1.71617081,  3.98250812,  3.73291532])
     )
     assert np.allclose(theta_hist[-1,:-1], result[obj], atol=0.1) == True
