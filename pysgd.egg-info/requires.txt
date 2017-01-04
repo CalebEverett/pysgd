@@ -1,0 +1,6 @@
+numpy
+
+[test]
+pytest
+py-cov
+pyplot

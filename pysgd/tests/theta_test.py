@@ -28,11 +28,10 @@ def test_theta(obj, adapt):
     )
 
     adapts =      ['constant', 'adagrad', 'adam']
-
     alpha = dict(
         stab_tang=[0.01,        0.10,     0.10  ],
         linear=   [0.01,        0.10,     0.10  ],
-        logistic= [0.20,       10.00,     0.10  ]
+        logistic= [0.20,        0.30,     0.10  ]
     )
 
     theta_hist = sgd(

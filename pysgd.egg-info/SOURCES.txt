@@ -1,0 +1,7 @@
+setup.cfg
+setup.py
+pysgd.egg-info/PKG-INFO
+pysgd.egg-info/SOURCES.txt
+pysgd.egg-info/dependency_links.txt
+pysgd.egg-info/requires.txt
+pysgd.egg-info/top_level.txt
