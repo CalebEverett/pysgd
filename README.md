@@ -2,6 +2,12 @@
 
 The `pysgd` package contains a function that performs various stochastic gradient descent algorithms. The function accepts data, an objective function, a gradient descent adaptation and algorithm hyperparameters as its arguments.
 
+The intention of this package is to present reasonably efficient, working algorithms that are easy to understand.
+
+The code is structured with one main function, `sgd`, one class, `Objective`, and modules for adaptations and objective functions. `sgd` creates an `Objective` instance using any data supplied and the adaptation and objective function modules specified. The objective functions include both gradient and cost functions The gradient functions accept `theta` and `batch` batch as arguments and the cost functin accepts `theta` and `data`. The adaptations are set up as decorated generator functions that accept `params` and `grad_fun` as arguments. `params` is a dict of hyperparameters and `grad_fun` is a gradient function. `Objective` creates the gradient generator and cost function, injecting batches and data as required, which are then used in the main gradient descent algorithm in `sgd`.
+
+The package is structured to facilitate the inclusion of additional algorithms with minimal additional boilerplate. Additional objective functions and gradient adaptations can be added by following the basic form of the included ones and placing them in their respective folders.
+
 ```
 pysgd
 |   `-- __init__.py
@@ -17,12 +23,6 @@ pysgd
 |   `-- stab_tang.py
 `-- tests
 ```
-
-The intention of this package is to present reasonably efficient, working algorithms that are easy to understand.
-
-The code is structured with one main function, `sgd`, one class, `Objective`, and modules for adaptations and objective functions. `sgd` creates an `Objective` instance using any data supplied and the adaptation and objective function modules specified. The objective functions include both gradient and cost functions The gradient functions accept `theta` and `batch` batch as arguments and the cost functin accepts `theta` and `data`. The adaptations are set up as decorated generator functions that accept `params` and `grad_fun` as arguments. `params` is a dict of hyperparameters and `grad_fun` is a gradient function. `Objective` creates the gradient generator and cost function, injecting batches and data as required, which are then used in the main gradient descent algorithm in `sgd`.
-
-The package is structured to facilitate the inclusion of additional algorithms with minimal additional boilerplate. Additional objective functions and gradient adaptations can be added by following the basic form of the included ones and placing them in their respective folders.
 
 ### Gradient Descent
 
@@ -61,7 +61,7 @@ The package has one main function, `sgd`, that returns a `j x (n+2)` array, wher
 
 #### Tests
 
-Tests are are performed with [pytest](http://doc.pytest.org/en/latest/index.html) and cover 100% of code.
+Tests are are performed with [pytest](http://doc.pytest.org/en/latest/index.html) and cover 100% of the code.
 
 In addition to sample data sets, the [Stablinsky-Tang function](https://en.wikipedia.org/wiki/Test_functions_for_optimization) is used for testing. This function is non-convex with straightforward gradient computations that makes it possible to compare the values produced by the algorithms with values that can be calculate directly. By using two dimensional inputs all of the possible values of `J` within a range of `theta` values can be plotted as a surface.  `J_theta` for each iteration of the algorithm can then be plotted on the surface in order to visualize the gradient descent.
 
