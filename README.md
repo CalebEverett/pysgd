@@ -63,7 +63,7 @@ The package has one main function, `sgd`, that returns a `j x (n+2)` array, wher
 
 Tests are are performed with [pytest](http://doc.pytest.org/en/latest/index.html) and cover 100% of the code.
 
-In addition to sample data sets, the [Stablinsky-Tang function](https://en.wikipedia.org/wiki/Test_functions_for_optimization) is used for testing. This function is non-convex with straightforward gradient computations that makes it possible to compare the values produced by the algorithms with values that can be calculate directly. By using two dimensional inputs all of the possible values of `J` within a range of `theta` values can be plotted as a surface.  `J_theta` for each iteration of the algorithm can then be plotted on the surface in order to visualize the gradient descent.
+In addition to sample data sets, the [Stablinsky-Tang function](https://en.wikipedia.org/wiki/Test_functions_for_optimization) is used for testing. This function is non-convex with straightforward gradient computations that makes it possible to compare the values produced by the algorithms with known values. By using two dimensional inputs all of the possible values of `J` within a range of `theta` values can be plotted as a surface.  `J(theta)` for each iteration of the algorithm can then be plotted on the surface in order to visualize the gradient descent.
 
-The color scale of the surfaces in the plots in the included notebook corresponds to the value of `J`. The color scale of the points on the surface, which represent `J_(theta_j)` at each iteration, correspond to the iteration.
+The color scale of the surfaces in the plots in the included notebook corresponds to the value of `J`. The color scale of the points on the surface, which represent `J_(theta_j)` at each iteration, corresponds to the iteration of the algorithm.
 
