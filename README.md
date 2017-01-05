@@ -20,9 +20,11 @@ pysgd
 
 The intention of this package is to present reasonably efficient, working algorithms that are easy to understand.
 
-The package is structured to make it facilitate the inclusion of additional algorithms with minimal additional boilerplate. Additional objective functions and gradient adaptations can be added by following the basic form of the existing ones and placing them in their respective folders.
+The code is structured with one main function, `sgd`, one class, `Objective`, and modules for adaptations and objective functions. `sgd` creates an `Objective` instance using any data supplied and the adaptation and objective function modules specified. The objective functions include both gradient and cost functions The gradient functions accept `theta` and `batch` batch as arguments and the cost functin accepts `theta` and `data`. The adaptations are set up as decorated generator functions that accept `params` and `grad_fun` as arguments. `params` is a dict of hyperparameters and `grad_fun` is a gradient function. `Objective` creates the gradient generator and cost function, injecting batches and data as required, which are then used in the main gradient descent algorithm in `sgd`.
 
-### Gradient Descent Basics
+The package is structured to facilitate the inclusion of additional algorithms with minimal additional boilerplate. Additional objective functions and gradient adaptations can be added by following the basic form of the included ones and placing them in their respective folders.
+
+### Gradient Descent
 
 Gradient descent is a method for minimizing an objective function. In machine learning applications the objective function to be minimized is the error (or cost), `J`, of a predictive model. A predictive model consists of a parameters, `theta`, that are applied to inputs, `X`, (also called training samples, features, observations or independent variables) in order to estimate an output, `y_hat` (also called a label or dependent variable). Gradient descent attempts to determine the parameters that when applied to a set of inputs result in the lowest total error (the difference between the actual outcome and the one predicted by the model). Below is the basic predictive formula.
 
@@ -59,9 +61,9 @@ The package has one main function, `sgd`, that returns a `j x (n+2)` array, wher
 
 #### Tests
 
-Tests are are performed with [pytest](http://doc.pytest.org/en/latest/index.html) and cover 100% of the package.
+Tests are are performed with [pytest](http://doc.pytest.org/en/latest/index.html) and cover 100% of code.
 
-In addition to sample data sets, the [Stablinsky-Tang function](https://en.wikipedia.org/wiki/Test_functions_for_optimization) is also used for testing. This function is non-convex with straightforward gradient computations andk allows us to compare the value of `theta` produced by each algorithm and its associated `J` with values that can be calculate directly. By using two dimensional inputs it is possible to plot all of the possible values of `J` within a range of `theta` values as a surface.  `J_theta` for each iteration of the algorithm can then be plotted on the surface in order to visualize the gradient descents.
+In addition to sample data sets, the [Stablinsky-Tang function](https://en.wikipedia.org/wiki/Test_functions_for_optimization) is used for testing. This function is non-convex with straightforward gradient computations that makes it possible to compare the values produced by the algorithms with values that can be calculate directly. By using two dimensional inputs all of the possible values of `J` within a range of `theta` values can be plotted as a surface.  `J_theta` for each iteration of the algorithm can then be plotted on the surface in order to visualize the gradient descent.
 
-The color scale of the surface in the included notebook corresponds to the value of `J`. The color scale of the points on the surface, which represent `J_(theta_j)` at each iteration, corresponds to the iteration.
+The color scale of the surfaces in the plots in the included notebook corresponds to the value of `J`. The color scale of the points on the surface, which represent `J_(theta_j)` at each iteration, correspond to the iteration.
 
