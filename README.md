@@ -43,20 +43,19 @@ In order to minimze `J` with respect to `theta`, the algorithm starts with an ab
 
 The package has one main function, `sgd`, that returns a `j x (n+2)` array, where `j` is the number of iterations and `n` is the number of features. `theta_j` is in the first `n+1` columns and the cost `J_j` in the last column.
 
-{{% bordered_table %}}
 |Argument           |Definition                                                                                    |
 |-------------------|----------------------------------------------------------------------------------------------|
-|`theta0`           |Starting value of `theta` in the form of an `1 x (n+1)` array.               |
+|`theta0`           |Starting value of `theta` in the form of an `1 x (n+1)` array.                                |
 |`obj='stab_tang'`  |Objective function to be minimized in the form of a string with a value of `stab_tang`, `linear` or `logistic`. `stab_tang` is for the [Stablinsky-Tang function](https://en.wikipedia.org/wiki/Test_functions_for_optimization), included for testing and illustrative purposes.  |
 |`adapt='constant'` |Gradient descent adaptation in the form of a string with a value of `constant`, `adagrad` or `adam`.<ul><li> `constant` applies no adaptation</li><li>`adagrad` implements [Adaptive Gradient Algorithm](http://stanford.edu/~jduchi/projects/DuchiHaSi10_colt.pdf)</li><li>`adam` implements [Adaptive Moment Estimation](https://arxiv.org/pdf/1412.6980v8.pdf)</li></ul>                                                                 |
 |`data=np.array.(closed brackets)`|Data in the form of an `m x (n+1)` array, including `ones` in the first column, if necessary, where `m` is the number of training observations.                                                      |
 |`size=50`          |Batch size in the form of an integer between `1` and `m`. Batches are generated contiguously over the data until theta has converged or all observations have been included in a batch, at which point the data is shuffled before additional batches are used.|
-|`alpha=.01`        |Learning rate `alpha` in the form of a floating point integer.                               |
+|`alpha=.01`        |Learning rate `alpha` in the form of a floating point integer.                                |
 |`epsilon=10**-8`   |Hyperparameter used by `adagrad` and `adam` for smoothing.                                    |
 |`beta1=0.9`        |Hyperparamter used by `adam` that controls the decay rates of the moving gradient averages.   |
 |`beta2=0.999`      |Hyperparamter used by `adam` that controls the decay rates of the moving gradient averages.   |
 |`delta_min=10**-6` |Maximum change in all elements of `theta` required to establish convergence, in the form of a floating point integer.|
-|`iters=1000`       |Maximum number of batches to evaluate if convergence is not achieved in fewer iterations.       |
+|`iters=1000`       |Maximum number of batches to evaluate if convergence is not achieved in fewer iterations.     |
 
 #### Tests
 
