@@ -9,7 +9,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='pysgd',
-    version='0.0.1a1',
+    version='0.0.1a2',
     description='Stochastic gradient descent algorithms',
     long_description=long_description,
     author='Caleb Everett',
