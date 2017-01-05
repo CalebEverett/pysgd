@@ -1,85 +1,68 @@
-
 # pysgd
 
-The `pysgd` package is structured as a general gradient descent algorithm that accepts data, an objective function, a gradient descent adaptation and hyperparameters as its arguments. Below is the file structure of the package:
+The `pysgd` package contains a function that performs various stochastic gradient descent algorithms. The function accepts data, an objective function, a gradient descent adaptation and algorithm hyperparameters as its arguments.
 
 ```
-pysgd/
-|--__init__.py
-|--adaptations/
-|  |--__init__.py
-|  |--adagrad.py
-|  |--adam.py
-|  |--constant.py
-|--objectives/
-|  |--__init__.py
-|  |--linear.py
-|  |--logistic.py
-|  |--stab-tang.py
-|--tests/
-
+pysgd
+|   `-- __init__.py
+|-- adaptations
+|   |-- __init__.py
+|   |-- adagrad.py
+|   |-- adam.py
+|   `-- constant.py
+|-- objectives
+|   |-- __init__.py
+|   |-- linear.py
+|   |-- logistic.py
+|   `-- stab_tang.py
+`-- tests
 ```
-The intention of this package is to present reasonbly efficient, working algorithms that are easy to understand.
 
-The package is structured to make it easy to add additional objective functions and gradient descent adaptations, by following the basic form of the existing ones and adding them into their respective folders.
+The intention of this package is to present reasonably efficient, working algorithms that are easy to understand.
 
-### Gradient Descent
+The package is structured to make it facilitate the inclusion of additional algorithms with minimal additional boilerplate. Additional objective functions and gradient adaptations can be added by following the basic form of the existing ones and placing them in their respective folders.
 
-Gradient descent is a method for minimizing an objective function. In machine learning applications the objective function to be minimized is the error, `J`, (or cost) of a predictive model. A predictive model consists of a parameters, $\theta$, that are applied to inputs, $X$, (also called training samples, features, observations or independent variables) in order to estimate an output, $\hat{y}$ (also called a label or dependent variable). Gradient descent attempts to determine the parameters that when applied to a set of inputs result in the lowest total error (the difference between the actual outcome and the one predicted by the model). Below is the basic predictive formula.
+### Gradient Descent Basics
 
-$$H(X,\theta)=\hat{y}$$
+Gradient descent is a method for minimizing an objective function. In machine learning applications the objective function to be minimized is the error (or cost), `J`, of a predictive model. A predictive model consists of a parameters, `theta`, that are applied to inputs, `X`, (also called training samples, features, observations or independent variables) in order to estimate an output, `y_hat` (also called a label or dependent variable). Gradient descent attempts to determine the parameters that when applied to a set of inputs result in the lowest total error (the difference between the actual outcome and the one predicted by the model). Below is the basic predictive formula.
 
-Below is an illustrative formula for determining the cost of a model.
+`H(X,theta) = y_hat`
 
-$$J(\theta) = \sum_{i=1}^m\mid{h_i(\theta,x_i) - y_i}\mid$$
+And here is an illustrative formula for determining the total error of a model.
 
-There are different formulas for computing cost depending on the application, but the formula above expresses the essence of predicting actual outcomes as closely as possible.
+`J(theta) = sum(|h_i(theta,x_i) - y_i| for each training observation, i)`
 
-In order to minimze $J$ with respect to $\theta$, the algorithm starts with an abitrary value of $\theta$, determines the "direction" that would result in the fastest decrease in cost (called the gradient), updates $\theta$ in that direction by a small amount (called the learning rate or $\alpha$) and then repeats until cost $J$ has been minimized.
+Different formulas for computing cost are used depending on the application, but the formula above expresses the essence of predicting actual outcomes as closely as possible.
+
+In order to minimze `J` with respect to `theta`, the algorithm starts with an abitrary value of `theta`, determines the "direction" that would result in the fastest decrease in cost (called the `gradient`), updates `theta` in that direction by a small amount (called the learning rate or `alpha`) and then repeats until cost `J` has been minimized.
 
 
-$$\theta_j := \theta_j - \alpha\triangledown\theta_jJ(\theta)$$
-
-or
-
-$$\theta_j := \theta_j - \alpha\frac\partial{\partial\theta_j}J(\theta)$$
+`theta_(j+1) = theta_j - alpha * gradient_j`
 
 ### API
 
-The package has one main function, `sgd`, that returns a $j$ x $(n + 2)$ array, where $j$ is the number of iterations and $n$ is the number of features in the data. $\theta_j$ is in the first $n + 1$ columns and the cost $J_j$ in the last column.
+The package has one main function, `sgd`, that returns a `j x (n+2)` array, where `j` is the number of iterations and `n` is the number of features. `theta_j` is in the first `n+1` columns and the cost `J_j` in the last column.
 
-|Argument          |Definition                                                                                    |
-|------------------|----------------------------------------------------------------------------------------------|
-|`theta0`          |Starting value of $\theta$ ($\theta_0$) in the form of an $1$ x$(n + 1)$ array.               |
-|`obj='stab_tang'` |Objective function to be minimized in the form of a string with a value of `stab_tang`, `linear` or `logistic`. `stab_tang` is for the [Stablinsky-Tang function](https://en.wikipedia.org/wiki/Test_functions_for_optimization), included for testing and illustrative purposes.  |
-|`adapt='constant'`|Gradient descent adaptation in the form of a string with a value of `constant`, `adagrad` or `adam`.<ul><li> `constant` applies no adaptation</li><li>`adagrad` implements [Adaptive Gradient Algorithm](http://stanford.edu/~jduchi/projects/DuchiHaSi10_colt.pdf)</li><li>`adam` implements [Adaptive Moment Estimation](https://arxiv.org/pdf/1412.6980v8.pdf)</li></ul>                                                                 |
-|`data=np.array([])`|Data in the form of an $m$ x $(n+1)$ array, including `ones` in the first column, if necessary, where $m$ is the number of training observations.                                                      |
-|`size=50`         |Batch size in the form of an integer between $1$ and $m$. Batches are generated contiguously over the data. Data is shuffled between cycles.                                                                   |
-|`alpha=.01`       |Learning rate $\alpha$ in the form of a floating point integer.                               |
-|`epsilon=10**-8`  |Hyperparameter used by `adagrad` and `adam` for smoothing.                                    |
-|`beta1=0.9`       |Hyperparamter used by `adam` that controls the decay rates of the moving gradient averages.   |
-|`beta2=0.999`     |Hyperparamter used by `adam` that controls the decay rates of the moving gradient averages.   |
-|`delta_min=10**-6`|Maximum change in $\theta_n$ to establish convergence in the form of a floating point integer.|
-|`iters=1000`      |Maximum number of batches evaluated unless convergence is achieved in fewer iterations.       |
+{{% bordered_table %}}
+|Argument           |Definition                                                                                    |
+|-------------------|----------------------------------------------------------------------------------------------|
+|`theta0`           |Starting value of `theta` in the form of an `1 x (n+1)` array.               |
+|`obj='stab_tang'`  |Objective function to be minimized in the form of a string with a value of `stab_tang`, `linear` or `logistic`. `stab_tang` is for the [Stablinsky-Tang function](https://en.wikipedia.org/wiki/Test_functions_for_optimization), included for testing and illustrative purposes.  |
+|`adapt='constant'` |Gradient descent adaptation in the form of a string with a value of `constant`, `adagrad` or `adam`.<ul><li> `constant` applies no adaptation</li><li>`adagrad` implements [Adaptive Gradient Algorithm](http://stanford.edu/~jduchi/projects/DuchiHaSi10_colt.pdf)</li><li>`adam` implements [Adaptive Moment Estimation](https://arxiv.org/pdf/1412.6980v8.pdf)</li></ul>                                                                 |
+|`data=np.array.(closed brackets)`|Data in the form of an `m x (n+1)` array, including `ones` in the first column, if necessary, where `m` is the number of training observations.                                                      |
+|`size=50`          |Batch size in the form of an integer between `1` and `m`. Batches are generated contiguously over the data until theta has converged or all observations have been included in a batch, at which point the data is shuffled before additional batches are used.|
+|`alpha=.01`        |Learning rate `alpha` in the form of a floating point integer.                               |
+|`epsilon=10**-8`   |Hyperparameter used by `adagrad` and `adam` for smoothing.                                    |
+|`beta1=0.9`        |Hyperparamter used by `adam` that controls the decay rates of the moving gradient averages.   |
+|`beta2=0.999`      |Hyperparamter used by `adam` that controls the decay rates of the moving gradient averages.   |
+|`delta_min=10**-6` |Maximum change in all elements of `theta` required to establish convergence, in the form of a floating point integer.|
+|`iters=1000`       |Maximum number of batches to evaluate if convergence is not achieved in fewer iterations.       |
 
-#### Testing
+#### Tests
 
-Tests are in the `tests` folder using [pytest](http://doc.pytest.org/en/latest/index.html), with 100% coverage.
+Tests are are performed with [pytest](http://doc.pytest.org/en/latest/index.html) and cover 100% of the package.
 
-In addition to sample data sets, we also use the [Stablinsky-Tang function](https://en.wikipedia.org/wiki/Test_functions_for_optimization) for testing, which is non-convex, suitable for testing, with straightforward gradient computation. This allows us to compare the value of $\theta$ produced by each algorithm and its associated $J$ with values we can calculate directly. By using a known function with two dimensional inputs we can plot $J$ as a surface for a given range of $\theta$ values and then $J_\theta$ for each iteration of the algorithm to visualize the progression of the algorithms.
+In addition to sample data sets, the [Stablinsky-Tang function](https://en.wikipedia.org/wiki/Test_functions_for_optimization) is also used for testing. This function is non-convex with straightforward gradient computations andk allows us to compare the value of `theta` produced by each algorithm and its associated `J` with values that can be calculate directly. By using two dimensional inputs it is possible to plot all of the possible values of `J` within a range of `theta` values as a surface.  `J_theta` for each iteration of the algorithm can then be plotted on the surface in order to visualize the gradient descents.
 
-The Styblinski–Tang function with respect to $\theta$ is:
+The color scale of the surface in the included notebook corresponds to the value of `J`. The color scale of the points on the surface, which represent `J_(theta_j)` at each iteration, corresponds to the iteration.
 
-$$J(\theta) = \dfrac{\sum_{i=1}^n\theta_i^4-16\theta_i^2+5\theta_i}{n}$$
-
-where $n$ is the number of dimensions in the data. For two dimensions, we can also express our cost function as:
-
-$$J(\theta) = \dfrac{\theta_1^4-16\theta_1^2+5\theta_1+\theta_2^4-16\theta_2^2+5\theta_2}{2}$$
-
-The global minimum of this function is $-78.33233$ at $\theta = (-2.903534, -2.903534)$
-
-The Styblinski–Tang gradient function is:
-
-$$\frac\partial{\partial\theta_n}J(\theta) = 2\theta_n^3-16\theta_n+2.5$$
-
-The color scale of the surface plots corresponds to the z-axis value, which represents cost $J$ for all values of $\theta$ in the displayed range. The color scale of the points on the surface, which represent the cost $J_{\theta_j}$ as a function of $\theta_j$ at each iteration of the model, corresponds to the iteration.
